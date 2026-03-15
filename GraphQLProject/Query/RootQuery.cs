@@ -9,13 +9,13 @@ namespace GraphQLProject.Query
             Name = "RootQuery";
 
             // We use the specific Query classes as the GraphType for these fields
-            Field<MenuQuery>("menu")
+            Field<MenuQuery>("MenuQuery")
                 .Resolve(context => new { }); // Returns an empty object to satisfy the level
 
-            Field<CategoryQuery>("category")
+            Field<CategoryQuery>("CategoryQuery")
                 .Resolve(context => new { });
 
-            Field<ReservationQuery>("reservation")
+            Field<ReservationQuery>("ReservationQuery")
                 .Resolve(context => new { });
         }
     }

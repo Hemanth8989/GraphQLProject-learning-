@@ -21,14 +21,22 @@ namespace GraphQLProject.Services
             return reservation;
         }
 
-        public async Task DeleteReservation(int id)
+        public async Task<Reservation?> DeleteReservation(int id)
         {
-            var existing = _dbContext.Reservations.Find(id);
+            // Use FindAsync for non-blocking lookup
+            var existing = await _dbContext.Reservations.FindAsync(id);
+
             if (existing == null)
-                return;
+            {
+                return null; // Return null so the GraphQL resolver knows nothing happened
+            }
 
             _dbContext.Reservations.Remove(existing);
-            _dbContext.SaveChanges();
+
+            // Use SaveChangesAsync to ensure the thread is released while waiting for SQL
+            await _dbContext.SaveChangesAsync();
+
+            return existing;
         }
 
         public async Task<List<Reservation>> GetAllReservations()

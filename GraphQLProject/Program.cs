@@ -21,25 +21,31 @@ builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
-// 3. Register GraphQL Types, Queries, and Mutations (Scoped)
+// 3. Register GraphQL Types
 builder.Services.AddScoped<MenuType>();
-
 builder.Services.AddScoped<ReservationType>();
+builder.Services.AddScoped<CategoryType>();
+builder.Services.AddScoped<MenuInputType>();
+builder.Services.AddScoped<CategoryInputType>();
+builder.Services.AddScoped<ReservationInputType>();
+//querys
 builder.Services.AddScoped<MenuQuery>();
 builder.Services.AddScoped<CategoryQuery>();
 builder.Services.AddScoped<ReservationQuery>();
 builder.Services.AddScoped<RootQuery>();
-
+//mutations
+builder.Services.AddScoped<MenuMutation>();
+builder.Services.AddScoped<CategoryMutation>();
+builder.Services.AddScoped<ReservationMutation>();
+builder.Services.AddScoped<RootMutation>();
 builder.Services.AddScoped<ISchema, Rootschema>();
-
-//builder.Services.AddScoped<MenuInputType>();
-//builder.Services.AddScoped<MenuMutation>();
 
 // 4. GraphQL Engine Configuration
 builder.Services.AddGraphQL(options => options
     .AddSchema<Rootschema>()
     .AddSystemTextJson()
-    .AddGraphTypes(typeof(Rootschema).Assembly) // Automatically registers MenuType, MenuInputType, etc.
+    .AddGraphTypes(typeof(Rootschema).Assembly)
+    .AddErrorInfoProvider(opt => opt.ExposeExceptionDetails = true)// Automatically registers MenuType, MenuInputType, etc.
 );
 
 builder.Services.AddControllers();

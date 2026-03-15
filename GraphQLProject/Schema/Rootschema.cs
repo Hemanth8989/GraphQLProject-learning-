@@ -11,7 +11,7 @@ namespace GraphQLProject.Schema
             // Resolve the Query and Mutation from the service provider
             Query = provider.GetRequiredService<RootQuery>();
 
-            //Mutation = provider.GetRequiredService<MenuMutation>();
+            Mutation = provider.GetRequiredService<RootMutation>();
         }
     }
 }

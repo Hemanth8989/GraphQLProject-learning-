@@ -22,14 +22,24 @@ namespace GraphQLProject.Services
             return category;
         }
 
-        public async Task DeleteCategory(int id)
+        public async Task<Category?> DeleteCategory(int id)
         {
-            var existing = _dbContext.Categories.Find(id);
-            if (existing == null)
-                return;
+            // 1. Find the category in the database
+            var category = await _dbContext.Categories.FindAsync(id);
 
-            _dbContext.Categories.Remove(existing);
-            _dbContext.SaveChanges();
+            if (category == null)
+            {
+                return null;
+            }
+
+            // 2. Remove it from the change tracker
+            _dbContext.Categories.Remove(category);
+
+            // 3. Persist the change to SQL Server
+            await _dbContext.SaveChangesAsync();
+
+            // 4. Return the deleted object to the GraphQL resolver
+            return category;
         }
 
         public async Task<List<Category>> GetAllCategories()

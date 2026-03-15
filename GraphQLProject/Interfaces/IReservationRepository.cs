@@ -8,6 +8,6 @@ namespace GraphQLProject.Interfaces
         Task<Reservation> GetReservation(int id);
         Task<Reservation> AddReservation(Reservation reservation);
         Task<Reservation> UpdateReservation(Reservation reservation);
-        Task DeleteReservation(int id);
+        Task<Reservation?> DeleteReservation(int id);
     }
 }
